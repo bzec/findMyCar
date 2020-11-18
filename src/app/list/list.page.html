@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      List localisation
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">List localisation</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list  [hidden]="!displayScreen()">
+    <ion-item-sliding *ngFor="let item of positions">
+      <ion-item-options side="end">
+        <ion-item-option (click)="view(item)" color="success">View</ion-item-option>
+        <ion-item-option (click)="edit(item)">Edit name</ion-item-option>
+        <ion-item-option color="danger" (click)="delete(item)">Delete</ion-item-option>
+      </ion-item-options>
+      <ion-item (click)="view(item)"> 
+        {{item.value.name ? item.value.name : ''}} 
+        duration:{{item.value.duration}}, 
+        Date start: {{item.value.date | date : format : timezone}}
+      </ion-item>
+
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
