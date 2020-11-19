@@ -17,11 +17,11 @@
     <ion-item>
       <ion-list>
         <ion-item>
-          <ion-label>Delete frenquency</ion-label>
+          <ion-label>Delete lists parkings frenquency</ion-label>
           <ion-select [(ngModel)]="frequency" (ngModelChange)="changeFrenquency(frequency)">
             <ion-select-option value="0">Never</ion-select-option>
             <ion-select-option value="3">3 Mounth</ion-select-option>
-            <ion-select-option value="12">Years</ion-select-option>
+            <ion-select-option value="12">Year</ion-select-option>
           </ion-select>
         </ion-item>
       
@@ -33,7 +33,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Alert after time:</ion-label>
+      <ion-label>Be alerted after:</ion-label>
       <ion-input type="number" [(ngModel)]="hours" (ngModelChange)="changeHours(hours)" value="{{hours}}" placeholder="Hours"  min="0" max="23"></ion-input>
       <ion-label>:</ion-label>
       <ion-input type="number" [(ngModel)]="minutes" (ngModelChange)="changeMinutes(minutes)" value="{{minutes}}" placeholder="Minutes"  min="0" max="59"></ion-input>

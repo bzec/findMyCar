@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Leaflet from 'leaflet';
-import { antPath } from 'leaflet-ant-path';
+//import { antPath } from 'leaflet-ant-path';
 import { Timer } from '../service/timer-service/timer-service';
 import { GeocalisationService } from '../service/geocalisation-service/geocalisation-service';
 import { DataStorageService } from '../service/data-storage-service/data-storage-service';
 import { Storage } from '@ionic/storage';
+import { PhotoService } from '../service/photo-service/photo-service';
 
 @Component({
   selector: 'app-map',
@@ -41,7 +42,7 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Date of parking
    */
-  public dateStart : Date;
+  public dateStart: Date;
 
 
   /**
@@ -52,11 +53,19 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Position
    */
-  currentPosition: { latitude: number, longitude: number };
+  carPosition: { latitude: number, longitude: number };
+  userPosition: { latitude: number, longitude: number };
   /**
    * Position marker
    */
-  positionMarker: any;
+  positionCarMarker: any;
+  positionUserMarker: any;
+  lineTraject: any
+
+  /**
+   * Watch position
+   */
+  watch: any;
 
   /**
    * Data storage service
@@ -66,7 +75,12 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * history is activate
    */
-  isHistoryActivate : boolean
+  isHistoryActivate: boolean
+
+  /**
+   * 
+   */
+  photoService = PhotoService.getInstance();
 
   constructor(private storage: Storage) {
     this.dataStorageService = new DataStorageService(storage);
@@ -74,7 +88,7 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   /**
    * Method of ionic cycle
@@ -82,7 +96,7 @@ export class MapPage implements OnInit, OnDestroy {
   private ionViewDidEnter(): void {
 
     if (!this._map) this.leafletMap();
-    this.dataStorageService.getIsHistory().then((result)=> {
+    this.dataStorageService.getIsHistory().then((result) => {
       this.isHistoryActivate = result ? result : true;
     });
   }
@@ -93,19 +107,22 @@ export class MapPage implements OnInit, OnDestroy {
   private async leafletMap() {
     await this.geocalisationService.position();
 
-    this.currentPosition = this.geocalisationService.getCurrentPosition();
-    this._map = Leaflet.map('map', {center: [this.currentPosition.latitude, this.currentPosition.longitude] })
-    .setView([this.currentPosition.latitude, this.currentPosition.longitude], 10);
+    this.carPosition = this.geocalisationService.getCurrentPosition();
+    this._map = Leaflet.map('map', { center: [this.carPosition.latitude, this.carPosition.longitude] })
+      .setView([this.carPosition.latitude, this.carPosition.longitude], 10);
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://leafletjs.com/">Leaflet</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this._map);
 
+    this.watch = this.geocalisationService.getWatchPosition();
+    this.watch.subscribe(this.updateUserPosition.bind(this));
   }
 
   /** Remove map when we have multiple map object */
   ngOnDestroy(): void {
 
     this._map.remove();
+    this.watch.unsubscribe();
   }
 
   /**
@@ -120,11 +137,16 @@ export class MapPage implements OnInit, OnDestroy {
       this.timer.start();
       this.setTimer = setInterval(this.updateTimer.bind(this), 100);
       // Place marker
+      if(!this.positionUserMarker) {
+        console.log('position marker non mit')
+        this.addUserMarker();
+      }
+
       this.updatePosition().then(() => {
-        this.positionMarker = Leaflet.marker([this.currentPosition.latitude, this.currentPosition.longitude])
-          .addTo(this._map).bindPopup('your car is here').openPopup();
-      })
-      this._map.setZoom(18);
+        this.addCarMarker();
+        this.addLineTraject();
+      });
+
       // Date
       this.dateStart = new Date();
     } else {
@@ -132,12 +154,17 @@ export class MapPage implements OnInit, OnDestroy {
       this.timer.stop();
       clearInterval(this.setTimer);
       // remove layer
-      this._map.removeLayer(this.positionMarker)
+      this._map.removeLayer(this.positionCarMarker)
+      this._map.removeLayer(this.positionUserMarker);
+      this._map.removeLayer(this.lineTraject);
+      this.positionCarMarker = null;
+      this.positionUserMarker = null;
+      this.lineTraject = null;
       //save in bdd
-      if(this.isHistoryActivate) {
+      if (this.isHistoryActivate) {
         this.dataStorageService
-        .setData(this.currentPosition.latitude, this.currentPosition.longitude, this.dateStart, this.timerString);
-      }    
+          .setData(this.carPosition.latitude, this.carPosition.longitude, this.dateStart, this.timerString);
+      }
     }
 
   }
@@ -153,13 +180,85 @@ export class MapPage implements OnInit, OnDestroy {
    * Update position
    */
   private async updatePosition() {
+    console.log('on update')
     await this.geocalisationService.position();
 
-    this.currentPosition = this.geocalisationService.getCurrentPosition();
+    console.log('on  a update')
+    this.carPosition = this.geocalisationService.getCurrentPosition();
+    console.log('on fini await')
+
     return Promise.resolve('Fini');
   }
 
+  /**
+   * Prendre en photo
+   */
+  private async takePhoto() {
+    let photo = await this.photoService.takePhoto();
+    alert(photo.dataUrl);
+  }
 
+  /**
+   * Add line of traject
+   */
+  public addLineTraject() {
+    if(this.lineTraject) {
+      this._map.removeLayer(this.lineTraject);
+    }
+
+    let latlngs = Array();
+
+    //Get latlng from user position
+    latlngs.push({ lat: this.userPosition.latitude, lng: this.userPosition.longitude });
+
+    //Get latlng from car position
+    latlngs.push({ lat: this.carPosition.latitude, lng: this.carPosition.longitude });
+
+    // create a blue polyline from an arrays of LatLng points
+    this.lineTraject = Leaflet.polyline(latlngs, { color: 'blue' }).addTo(this._map);
+
+    // zoom the map to the polyline
+    this._map.fitBounds(this.lineTraject.getBounds());
+  }
+
+  /**
+   * Add Car Marker
+   */
+  public addCarMarker() {
+    this.positionCarMarker = Leaflet.marker([this.carPosition.latitude, this.carPosition.longitude])
+    .addTo(this._map).bindPopup('your car is here').openPopup();
+  }
+
+  /**
+   * Add user marker
+   */
+  public addUserMarker() {
+    this.positionUserMarker = Leaflet.marker([this.userPosition.latitude, this.userPosition.longitude])
+    .addTo(this._map).bindPopup('you are here');
+  }
+
+  /**
+   * Update user position
+   * @param data 
+   */
+  private updateUserPosition(data) {
+    let result = data as any
+    if (result && result.coords) {
+
+      if(this.positionUserMarker) {
+        this._map.removeLayer(this.positionUserMarker);
+      }
+      
+      this.userPosition = { latitude: result.coords.latitude, longitude: result.coords.longitude }
+      //this.userPosition = { latitude: 47.654494828509755, longitude: 7.288282344824184 }
+
+      console.log('update position', result);
+      
+      this.addUserMarker();
+
+      if(this.isStarted) this.addLineTraject();
+    }
+  }
 }
 
 /*

@@ -20,6 +20,8 @@
       <h2>Duration :</h2>
       <label>{{timerString}}</label>
       <ion-button (click)= "setStarted(false)">Stop</ion-button>
+      <ion-button (click)= "takePhoto()">Take photo</ion-button>
+
     </div>
 
     <div [hidden]="isStarted">
