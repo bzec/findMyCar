@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +21,10 @@ import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    LocalNotifications
+    Geolocation,
+    LocalNotifications,
+    Clipboard
+    
   ],
   bootstrap: [AppComponent]
 })

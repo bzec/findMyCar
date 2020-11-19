@@ -23,7 +23,7 @@ export class PhotoService {
         return PhotoService.instance;
     }
 
-    public async takePhoto() {
+    public async takePhoto() : Promise<CameraPhoto> {
         // Take a photo
         let capturedPhoto = await Camera.getPhoto({
           resultType: CameraResultType.Uri, 

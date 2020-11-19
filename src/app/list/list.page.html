@@ -7,11 +7,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">List localisation</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <ion-list  [hidden]="!displayScreen()">
     <ion-item-sliding *ngFor="let item of positions">

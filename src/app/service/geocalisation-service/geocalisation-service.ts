@@ -33,7 +33,7 @@ export class GeocalisationService {
    */
   public async position() {
 
-    await this.geolocation.getCurrentPosition({timeout: 1000, maximumAge: Infinity}).then((resp) => {
+    await this.geolocation.getCurrentPosition({timeout: 2500, maximumAge: Infinity}).then((resp) => {
       console.log('result :', resp);
       this.currentPosition = { latitude: resp.coords.latitude, longitude: resp.coords.longitude };
       return Promise.resolve('fini');

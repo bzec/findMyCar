@@ -15,12 +15,16 @@
      <h3> Latitude: {{latitude}}, </h3>  
      <h3> Longitude: {{longitude}}</h3>  
     <h2>Duration: {{duration}}</h2>
+    <h1>photo : {{pictureBase64}}</h1>
     <app-explore-container name="ItemView"></app-explore-container>
   </ion-content>
   
   <ion-footer>
     <ion-toolbar>
-      <ion-button (click)="closeModal()">Close</ion-button>  
+      <ion-button (click)="closeModal()">Close</ion-button>
+      <ion-button (click)="copyGeolocationinfos()">Copy Geolocation infos</ion-button> 
+      <ion-button (click)="openInMap()"> Open In Map</ion-button>  
+
     </ion-toolbar>
   </ion-footer>
   

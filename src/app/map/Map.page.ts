@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as Leaflet from 'leaflet';
-//import { antPath } from 'leaflet-ant-path';
+import {Map, Icon, tileLayer, polyline, marker} from 'leaflet';
 import { Timer } from '../service/timer-service/timer-service';
 import { GeocalisationService } from '../service/geocalisation-service/geocalisation-service';
 import { DataStorageService } from '../service/data-storage-service/data-storage-service';
@@ -17,7 +16,7 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * map to display
    */
-  private _map: Leaflet.Map = null;
+  private _map: Map = null;
 
   /**
    * if parking is started
@@ -44,6 +43,7 @@ export class MapPage implements OnInit, OnDestroy {
    */
   public dateStart: Date;
 
+  base64Picture: string
 
   /**
    * Geocalisation service
@@ -82,6 +82,21 @@ export class MapPage implements OnInit, OnDestroy {
    */
   photoService = PhotoService.getInstance();
 
+
+  LeafIcon = Icon.extend({
+    options: {
+       iconSize:     [38, 95],
+       shadowSize:   [50, 64],
+       iconAnchor:   [22, 94],
+       shadowAnchor: [4, 62],
+       popupAnchor:  [-3, -76]
+    }
+  });
+  carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
+  //location-pointer
+  userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location-pointer.png'});
+
+
   constructor(private storage: Storage) {
     this.dataStorageService = new DataStorageService(storage);
     this.timer.setStorage(storage);
@@ -93,7 +108,7 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Method of ionic cycle
    */
-  private ionViewDidEnter(): void {
+  ionViewDidEnter(): void {
 
     if (!this._map) this.leafletMap();
     this.dataStorageService.getIsHistory().then((result) => {
@@ -108,11 +123,11 @@ export class MapPage implements OnInit, OnDestroy {
     await this.geocalisationService.position();
 
     this.carPosition = this.geocalisationService.getCurrentPosition();
-    this._map = Leaflet.map('map', { center: [this.carPosition.latitude, this.carPosition.longitude] })
+    this._map =  new Map('map', { center: [this.carPosition.latitude, this.carPosition.longitude] })
       .setView([this.carPosition.latitude, this.carPosition.longitude], 10);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://leafletjs.com/">Leaflet</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this._map);
+      }).addTo(this._map);
 
     this.watch = this.geocalisationService.getWatchPosition();
     this.watch.subscribe(this.updateUserPosition.bind(this));
@@ -137,7 +152,7 @@ export class MapPage implements OnInit, OnDestroy {
       this.timer.start();
       this.setTimer = setInterval(this.updateTimer.bind(this), 100);
       // Place marker
-      if(!this.positionUserMarker) {
+      if(!this.positionUserMarker && this.userPosition) {
         console.log('position marker non mit')
         this.addUserMarker();
       }
@@ -163,7 +178,11 @@ export class MapPage implements OnInit, OnDestroy {
       //save in bdd
       if (this.isHistoryActivate) {
         this.dataStorageService
-          .setData(this.carPosition.latitude, this.carPosition.longitude, this.dateStart, this.timerString);
+          .setData(
+            this.carPosition.latitude, this.carPosition.longitude,
+            this.dateStart, this.timerString,
+            this.base64Picture ? this.base64Picture: ''
+          );
       }
     }
 
@@ -191,11 +210,15 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Prendre en photo
+   * Take photo
    */
   private async takePhoto() {
     let photo = await this.photoService.takePhoto();
-    alert(photo.dataUrl);
+    
+    if(photo.base64String) {
+      this.base64Picture = photo.base64String;
+      console.log(photo.base64String);
+    }
   }
 
   /**
@@ -215,7 +238,7 @@ export class MapPage implements OnInit, OnDestroy {
     latlngs.push({ lat: this.carPosition.latitude, lng: this.carPosition.longitude });
 
     // create a blue polyline from an arrays of LatLng points
-    this.lineTraject = Leaflet.polyline(latlngs, { color: 'blue' }).addTo(this._map);
+    this.lineTraject = polyline(latlngs, { color: 'blue' }).addTo(this._map);
 
     // zoom the map to the polyline
     this._map.fitBounds(this.lineTraject.getBounds());
@@ -225,7 +248,7 @@ export class MapPage implements OnInit, OnDestroy {
    * Add Car Marker
    */
   public addCarMarker() {
-    this.positionCarMarker = Leaflet.marker([this.carPosition.latitude, this.carPosition.longitude])
+    this.positionCarMarker = marker([this.carPosition.latitude, this.carPosition.longitude], {icon: this.carIcon})
     .addTo(this._map).bindPopup('your car is here').openPopup();
   }
 
@@ -233,7 +256,7 @@ export class MapPage implements OnInit, OnDestroy {
    * Add user marker
    */
   public addUserMarker() {
-    this.positionUserMarker = Leaflet.marker([this.userPosition.latitude, this.userPosition.longitude])
+    this.positionUserMarker = marker([this.userPosition.latitude, this.userPosition.longitude], {icon: this.userIcon})
     .addTo(this._map).bindPopup('you are here');
   }
 
@@ -242,7 +265,7 @@ export class MapPage implements OnInit, OnDestroy {
    * @param data 
    */
   private updateUserPosition(data) {
-    let result = data as any
+    let result = data as any;
     if (result && result.coords) {
 
       if(this.positionUserMarker) {
