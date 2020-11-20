@@ -47,7 +47,7 @@ export class DataStorageService {
     await this._storage.get('UserHistory').then((value)=>{
       val = value;
     });
-    return val ? val : false;
+    return val ? val : true;
   }
 
   /**
