@@ -110,8 +110,6 @@ export class Timer {
     if (vSec < 10) {
       sec = "0" + vSec;
     }
-    console.log('h', this._h);
-    console.log('m', this._m);
 
     // verify is we send notif to user
     if (this._h != null && this._m != null && !this.isSendNotif) {
