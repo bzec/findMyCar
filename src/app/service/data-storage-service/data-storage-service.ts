@@ -28,12 +28,12 @@ export class DataStorageService {
    * @param date 
    * @param duration 
    */
-  public setData(latitude:number, longitude:number, date:Date, duration:String, pictureBase64: String) {
+  public setData(latitude:number, longitude:number, date:Date, duration:String, pictureData: String) {
     let id: string = (latitude+longitude+date.getTime()).toString();
 
-    this._storage.set(id,{latitude,longitude,date,duration , pictureBase64});
+    this._storage.set(id,{latitude,longitude,date,duration , pictureData});
     
-    this.toastService.popToast("Your emplacement is saved")
+    this.toastService.popToast("Your emplacement is saved");
     
     this._storage.get(id).then((res)=> {
     });
@@ -59,7 +59,6 @@ export class DataStorageService {
     this._storage.forEach((value, key, iterationNumber) => {
       if(value && value.latitude && value.longitude) list.push({key, value});
     })
-
     return list;
   }
 

@@ -1,7 +1,7 @@
 import { Plugins, CameraResultType, Capacitor, FilesystemDirectory, 
     CameraPhoto, CameraSource } from '@capacitor/core';
 
-const { Camera, Filesystem, Storage } = Plugins;
+const { Camera } = Plugins;
 
 export class PhotoService {
 
@@ -26,11 +26,10 @@ export class PhotoService {
     public async takePhoto() : Promise<CameraPhoto> {
         // Take a photo
         let capturedPhoto = await Camera.getPhoto({
-          resultType: CameraResultType.Uri, 
+          resultType: CameraResultType.DataUrl, 
           source: CameraSource.Camera, 
           quality: 100 
         });
-        console.log(capturedPhoto);
         return capturedPhoto;
     }
   }

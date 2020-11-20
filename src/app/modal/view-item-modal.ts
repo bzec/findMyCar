@@ -19,7 +19,7 @@ export class ModalViewItemPage {
   @Input() latitude: any;
   @Input() longitude: any;
   @Input() duration: any;
-  @Input() pictureBase64 : any;
+  @Input() pictureData : any;
   
     /**
    * Service to make toast

@@ -25,7 +25,8 @@ export class ModalService {
         'name': item.value.name ? item.value.name : 'Missing name',
         'latitude': item.value.latitude,
         'longitude': item.value.longitude,
-        'duration': item.value.duration
+        'duration': item.value.duration,
+        'pictureData' : item.value.pictureData
       }
     });
     return await modal.present();

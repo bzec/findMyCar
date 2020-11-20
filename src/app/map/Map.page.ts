@@ -5,6 +5,7 @@ import { GeocalisationService } from '../service/geocalisation-service/geocalisa
 import { DataStorageService } from '../service/data-storage-service/data-storage-service';
 import { Storage } from '@ionic/storage';
 import { PhotoService } from '../service/photo-service/photo-service';
+import { ToastService } from '../service/toast-service/toast-service';
 
 @Component({
   selector: 'app-map',
@@ -43,12 +44,17 @@ export class MapPage implements OnInit, OnDestroy {
    */
   public dateStart: Date;
 
-  base64Picture: string
+  dataUrl: string
 
   /**
    * Geocalisation service
    */
   geocalisationService: GeocalisationService = GeocalisationService.getInstance();
+
+    /**
+   * Service to make toast
+   */
+  public toastService: ToastService = ToastService.getInstance();
 
   /**
    * Position
@@ -176,12 +182,12 @@ export class MapPage implements OnInit, OnDestroy {
       this.positionUserMarker = null;
       this.lineTraject = null;
       //save in bdd
-      if (this.isHistoryActivate) {
+      if (this.isHistoryActivate) {        
         this.dataStorageService
           .setData(
             this.carPosition.latitude, this.carPosition.longitude,
             this.dateStart, this.timerString,
-            this.base64Picture ? this.base64Picture: ''
+            this.dataUrl ? this.dataUrl: ''
           );
       }
     }
@@ -215,9 +221,10 @@ export class MapPage implements OnInit, OnDestroy {
   private async takePhoto() {
     let photo = await this.photoService.takePhoto();
     
-    if(photo.base64String) {
-      this.base64Picture = photo.base64String;
-      console.log(photo.base64String);
+    if(photo.dataUrl) {
+      this.dataUrl = photo.dataUrl;
+      this.toastService.popToast("Image Saved");
+
     }
   }
 
