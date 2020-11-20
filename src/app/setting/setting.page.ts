@@ -22,8 +22,8 @@ export class SettingPage {
 
   public timeBeforeAlert: number = 0;
 
-  public minutes : number;
-  public hours : number;
+  public minutes: number;
+  public hours: number;
   /** Service */
   public dataStorageService: DataStorageService;
 
@@ -51,10 +51,10 @@ export class SettingPage {
     let userTime = await this.dataStorageService.getTimeAlert();
     this.minutes = userTime.minutes;
     this.hours = userTime.hours;
-    
+
     let frenq = await this.dataStorageService.getFrenquencyDelete();
     this.frequency = frenq;
-    
+
     let history = await this.dataStorageService.getIsHistory();
     this.isHistory = history;
   }
@@ -65,7 +65,7 @@ export class SettingPage {
    */
   changeFrenquency(value: string) {
     this.dataStorageService.edit({ key: 'UserFrenquency', value });
-    this.dataStorageService.edit({ key: 'UserDateFrenquency', value : new Date() });
+    this.dataStorageService.edit({ key: 'UserDateFrenquency', value: new Date() });
   }
 
   /**
@@ -127,7 +127,7 @@ export class SettingPage {
    * @param hours 
    */
   changeHours(hours) {
-    this.dataStorageService.edit({ key: 'UserAlertHours', value: hours});
+    this.dataStorageService.edit({ key: 'UserAlertHours', value: hours });
   }
 
   /**
@@ -135,6 +135,6 @@ export class SettingPage {
    * @param minutes 
    */
   changeMinutes(minutes) {
-    this.dataStorageService.edit({ key: 'UserAlertMinutes', value: minutes});
+    this.dataStorageService.edit({ key: 'UserAlertMinutes', value: minutes });
   }
 }

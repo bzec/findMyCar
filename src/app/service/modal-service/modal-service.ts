@@ -7,13 +7,13 @@ export class ModalService {
   /**
    * modal controller
    */
-  private _modalController : ModalController;
+  private _modalController: ModalController;
 
 
-  constructor(modal:ModalController) {
-      this._modalController = modal;
+  constructor(modal: ModalController) {
+    this._modalController = modal;
   }
-  
+
   /**
    * Present modal view for item
    * @param item 
@@ -26,7 +26,7 @@ export class ModalService {
         'latitude': item.value.latitude,
         'longitude': item.value.longitude,
         'duration': item.value.duration,
-        'pictureData' : item.value.pictureData
+        'pictureData': item.value.pictureData
       }
     });
     return await modal.present();

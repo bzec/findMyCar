@@ -1,5 +1,4 @@
 import { Storage } from '@ionic/storage';
-import { addListener } from 'process';
 import { ToastService } from '../toast-service/toast-service';
 
 /**
@@ -10,15 +9,15 @@ export class DataStorageService {
   /**
    * Storage
    */
-  private _storage : Storage;
+  private _storage: Storage;
 
   /**
    * Service to make toast
    */
   public toastService: ToastService = ToastService.getInstance();
-  
-  constructor(storage:Storage) {
-      this._storage = storage;
+
+  constructor(storage: Storage) {
+    this._storage = storage;
   }
 
   /**
@@ -28,14 +27,14 @@ export class DataStorageService {
    * @param date 
    * @param duration 
    */
-  public setData(latitude:number, longitude:number, date:Date, duration:String, pictureData: String) {
-    let id: string = (latitude+longitude+date.getTime()).toString();
+  public setData(latitude: number, longitude: number, date: Date, duration: String, pictureData: String) {
+    let id: string = (latitude + longitude + date.getTime()).toString();
 
-    this._storage.set(id,{latitude,longitude,date,duration , pictureData});
-    
+    this._storage.set(id, { latitude, longitude, date, duration, pictureData });
+
     this.toastService.popToast("Your emplacement is saved");
-    
-    this._storage.get(id).then((res)=> {
+
+    this._storage.get(id).then((res) => {
     });
   }
 
@@ -44,7 +43,7 @@ export class DataStorageService {
    */
   public async getIsHistory(): Promise<boolean> {
     let val: boolean = null
-    await this._storage.get('UserHistory').then((value)=>{
+    await this._storage.get('UserHistory').then((value) => {
       val = value;
     });
     return val ? val : true;
@@ -53,11 +52,11 @@ export class DataStorageService {
   /**
    * Get all positions
    */
-  public getAllData() : Array<any> {
+  public getAllData(): Array<any> {
     let list = [];
-    
+
     this._storage.forEach((value, key, iterationNumber) => {
-      if(value && value.latitude && value.longitude) list.push({key, value});
+      if (value && value.latitude && value.longitude) list.push({ key, value });
     })
     return list;
   }
@@ -66,8 +65,8 @@ export class DataStorageService {
    * Remove a stored element with key
    * @param key 
    */
-  public remove(key: string) :void {
-    this._storage.remove(key).then(()=> {
+  public remove(key: string): void {
+    this._storage.remove(key).then(() => {
       this.toastService.popToast('item deleted');
     });
   }
@@ -77,7 +76,7 @@ export class DataStorageService {
    * Edit a store
    * @param item 
    */
-  public edit(item: any) : void{
+  public edit(item: any): void {
     this._storage.set(item.key, item.value).then(() => {
       this.toastService.popToast('changed has saved');
     });
@@ -87,17 +86,17 @@ export class DataStorageService {
   /**
    * Delete all data positions
    */
-  public deleteAllDataPosition() : void {
+  public deleteAllDataPosition(): void {
 
     this._storage.forEach((value, key, iterationNumber) => {
-      if(value && value.latitude && value.longitude) this._storage.remove(key);
+      if (value && value.latitude && value.longitude) this._storage.remove(key);
     })
   }
 
   /**
    * Clear all data
    */
-  public clear() : void {
+  public clear(): void {
     this._storage.clear();
   }
 
@@ -106,7 +105,7 @@ export class DataStorageService {
    */
   public async getSavedDate() {
     let date;
-    await this._storage.get('UserDateFrenquency').then((value)=>{
+    await this._storage.get('UserDateFrenquency').then((value) => {
       date = value;
     });
 
@@ -118,7 +117,7 @@ export class DataStorageService {
    */
   async getFrenquencyDelete() {
     let add;
-    await this._storage.get('UserFrenquency').then((value)=>{
+    await this._storage.get('UserFrenquency').then((value) => {
       add = value;
     });
 
@@ -129,19 +128,19 @@ export class DataStorageService {
    * Get duration of parking
    */
   async getTimeAlert() {
-    let hours : number;
-    let minutes : number;
-    
-    await this._storage.get('UserAlertHours').then((value)=>{
+    let hours: number;
+    let minutes: number;
+
+    await this._storage.get('UserAlertHours').then((value) => {
       hours = value;
     });
 
-    await this._storage.get('UserAlertMinutes').then((value)=>{
+    await this._storage.get('UserAlertMinutes').then((value) => {
       minutes = value;
     });
     hours = hours ? hours : null;
     minutes = minutes ? minutes : null;
 
-    return {hours, minutes};
+    return { hours, minutes };
   }
 } 
