@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
       <ion-title>
-        Item View
+        IParking details
       </ion-title>
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
@@ -16,8 +16,7 @@
      <h3> Longitude: {{longitude}}</h3>  
     <h2>Duration: {{duration}}</h2>
 
-    <ion-img [src]="pictureData"></ion-img>
-    <app-explore-container name="ItemView"></app-explore-container>
+    <ion-img [hidden]="!pictureData" [src]="pictureData"></ion-img>
   </ion-content>
   
   <ion-footer>

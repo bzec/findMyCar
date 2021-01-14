@@ -154,7 +154,7 @@ export class MapPage implements OnInit, OnDestroy {
 
     this.isStarted = startState;
     if (this.isStarted) {
-
+      this.dataUrl = '';
       this.timer.start();
       this.setTimer = setInterval(this.updateTimer.bind(this), 100);
       // Place marker

@@ -7,7 +7,6 @@ export class AlertService {
   alertController: AlertController = new AlertController();
   constructor() { }
 
-
   /**
    * Singlenton
    */

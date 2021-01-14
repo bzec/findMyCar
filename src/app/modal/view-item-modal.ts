@@ -15,11 +15,11 @@ import { Platform } from '@ionic/angular';
 export class ModalViewItemPage {
     
   // Data passed in by componentProps
-  @Input() name: any;
-  @Input() latitude: any;
-  @Input() longitude: any;
-  @Input() duration: any;
-  @Input() pictureData : any;
+  @Input() name: string;
+  @Input() latitude: number;
+  @Input() longitude: number;
+  @Input() duration: string;
+  @Input() pictureData : string;
   
     /**
    * Service to make toast
