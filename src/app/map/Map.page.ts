@@ -91,11 +91,7 @@ export class MapPage implements OnInit, OnDestroy {
 
   LeafIcon = Icon.extend({
     options: {
-       iconSize:     [38, 95],
-       shadowSize:   [50, 64],
-       iconAnchor:   [22, 94],
-       shadowAnchor: [4, 62],
-       popupAnchor:  [-3, -76]
+       iconSize: [45, 45]
     }
   });
   carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
