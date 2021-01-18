@@ -12,6 +12,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
     LocalNotifications,
-    Clipboard
+    Clipboard,
+    Network
     
   ],
   bootstrap: [AppComponent]

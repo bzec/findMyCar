@@ -6,6 +6,7 @@ import { MapPage } from './Map.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { MapPageRoutingModule } from './map-routing.module';
+import { NetworkService } from '../service/network-service/network-service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,8 @@ import { MapPageRoutingModule } from './map-routing.module';
     ExploreContainerComponentModule,
     MapPageRoutingModule
   ],
-  declarations: [MapPage]
+  declarations: [MapPage],
+  providers: [NetworkService]
 })
+
 export class MapPageModule {}

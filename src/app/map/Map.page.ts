@@ -6,6 +6,7 @@ import { DataStorageService } from '../service/data-storage-service/data-storage
 import { Storage } from '@ionic/storage';
 import { PhotoService } from '../service/photo-service/photo-service';
 import { ToastService } from '../service/toast-service/toast-service';
+import { NetworkService } from '../service/network-service/network-service';
 
 @Component({
   selector: 'app-map',
@@ -94,12 +95,12 @@ export class MapPage implements OnInit, OnDestroy {
        iconSize: [45, 45]
     }
   });
+
   carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
   //location-pointer
   userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location-pointer.png'});
 
-
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, public networkService: NetworkService) {
     this.dataStorageService = new DataStorageService(storage);
     this.timer.setStorage(storage);
   }
@@ -111,11 +112,17 @@ export class MapPage implements OnInit, OnDestroy {
    * Method of ionic cycle
    */
   ionViewDidEnter(): void {
-
-    if (!this._map) this.leafletMap();
-    this.dataStorageService.getIsHistory().then((result) => {
-      this.isHistoryActivate = result ? result : true;
-    });
+    
+    if(this.networkService.isOnline()) {
+      if (!this._map){
+        this.leafletMap();
+      } 
+  
+      this.dataStorageService.getIsHistory().then((result) => {
+        this.isHistoryActivate = result ? result : true;
+      });
+    }
+    
   }
 
   /**
@@ -284,6 +291,9 @@ export class MapPage implements OnInit, OnDestroy {
 
       if(this.isStarted) this.addLineTraject();
     }
+  }
+  relaodPage() : void {
+    window.location.reload();
   }
 }
 
