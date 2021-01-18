@@ -24,9 +24,11 @@
 
     </div>
 
-    <div [hidden]="isStarted">
+    <div [hidden]= "isStarted || !positionUserMarker">
       <ion-button (click)= "setStarted(true)" color="primary">Find Position</ion-button>
     </div>
-
+    <div [hidden] = "positionUserMarker">
+      <h1>Wait to find user's Position</h1>
+    </div>
   </div>
 </ion-content>
