@@ -112,17 +112,18 @@ export class MapPage implements OnInit, OnDestroy {
    * Method of ionic cycle
    */
   ionViewDidEnter(): void {
-    
+    this.iniView();
+  }
+
+  private iniView() : void {
     if(this.networkService.isOnline()) {
       if (!this._map){
         this.leafletMap();
-      } 
-  
+      }
       this.dataStorageService.getIsHistory().then((result) => {
         this.isHistoryActivate = result ? result : true;
       });
     }
-    
   }
 
   /**
