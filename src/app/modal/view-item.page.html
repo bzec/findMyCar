@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
       <ion-title>
-        IParking details
+        Parking informations
       </ion-title>
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
@@ -9,18 +9,18 @@
       </ion-buttons>
     </ion-toolbar>
 </ion-header>
-  <ion-content [fullscreen]="true">
-    <h1>Name Localisation : {{name}}</h1>
-    <h2>Localisation : </h2>
-     <h3> Latitude: {{latitude}}, </h3>  
-     <h3> Longitude: {{longitude}}</h3>  
-    <h2>Duration: {{duration}}</h2>
+  <ion-content>
+    <h1 style="text-align: center;"> {{name}}</h1>
+    <h2> <b> Localisation :</b> </h2>
+     <h3> <b> Latitude:</b> {{latitude}}, </h3>  
+     <h3> <b> Longitude:</b> {{longitude}}</h3>  
+    <h2> <b> Duration:</b> {{duration}}</h2>
 
     <ion-img [hidden]="!pictureData" [src]="pictureData"></ion-img>
   </ion-content>
   
   <ion-footer>
-    <ion-toolbar>
+    <ion-toolbar expend="block">
       <ion-button (click)="closeModal()">Close</ion-button>
       <ion-button (click)="copyGeolocationinfos()">Copy Geolocation infos</ion-button> 
       <ion-button (click)="openInMap()"> Open In Map</ion-button>  

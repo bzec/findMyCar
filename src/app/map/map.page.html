@@ -21,20 +21,18 @@
   <div id="map" style="width: 100%; height: 80%"></div>
   <div style="width: 100%; height: 20%">
     <div [hidden]="!isStarted">
-      <h2>Duration :</h2>
-      <label>{{timerString}}</label>
-      <ion-button (click)="setStarted(false)">Stop</ion-button>
-      <ion-button (click)="takePhoto()">Take photo</ion-button>
-
+      <h2> <b>Duration :</b> {{timerString}}</h2>
+      <div expend="block">
+        <ion-button (click)="setStarted(false)">Stop</ion-button>
+        <ion-button (click)="takePhoto()">Take photo</ion-button>
+      </div>
     </div>
 
-    <div [hidden]="isStarted || !positionUserMarker">
-      <ion-button (click)="setStarted(true)" color="primary">Find Position</ion-button>
+    <div [hidden]="isStarted || !userPosition">
+      <ion-button expand="block" (click)="setStarted(true)" color="primary">Find Position</ion-button>
     </div>
-    <div [hidden]="positionUserMarker">
+    <div [hidden]="userPosition" color="red">
       <h1>Wait to find user's Position, check your internet connexion</h1>
     </div>
   </div>
-
-
 </ion-content>

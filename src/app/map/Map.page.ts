@@ -163,7 +163,7 @@ export class MapPage implements OnInit, OnDestroy {
       this.setTimer = setInterval(this.updateTimer.bind(this), 100);
       // Place marker
       if(!this.positionUserMarker && this.userPosition) {
-        console.log('position marker non mit')
+        console.log('position marker non mis')
         this.addUserMarker();
       }
 

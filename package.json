@@ -1,8 +1,8 @@
 {
   "name": "GeocalisationCar",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Bryan Zec",
-  "homepage": "https://ionicframework.com/",
+  "homepage": "/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -71,7 +71,8 @@
     "tslint": "~6.1.0",
     "typescript": "~3.9.5",
     "leaflet": "~1.7.1",
-    "@ionic/pwa-elements": "^3.0.1"
+    "@ionic/pwa-elements": "^3.0.1",
+    "cordova": "^10.0.0"
   },
-  "description": "An Ionic project"
+  "description": "Mobile applicattion do geolcalize our car and saved history"
 }
