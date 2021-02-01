@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Map
+      Geocalisation car
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -23,7 +23,7 @@
     <div [hidden]="!isStarted">
       <h2> <b>Duration :</b> {{timerString}}</h2>
       <div expend="block">
-        <ion-button (click)="setStarted(false)">Stop</ion-button>
+        <ion-button color="danger" (click)="setStarted(false)">Stop</ion-button>
         <ion-button (click)="takePhoto()">Take photo</ion-button>
       </div>
     </div>
@@ -31,7 +31,7 @@
     <div [hidden]="isStarted || !userPosition">
       <ion-button expand="block" (click)="setStarted(true)" color="primary">Find Position</ion-button>
     </div>
-    <div [hidden]="userPosition" color="red">
+    <div [hidden]="userPosition">
       <h1>Wait to find user's Position, check your internet connexion</h1>
     </div>
   </div>

@@ -293,9 +293,6 @@ export class MapPage implements OnInit, OnDestroy {
       if(this.isStarted) this.addLineTraject();
     }
   }
-  relaodPage() : void {
-    window.location.reload();
-  }
 }
 
 /*

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Setting page
+      Settings
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -17,7 +17,7 @@
     <ion-item>
       <ion-list>
         <ion-item>
-          <ion-label>Delete lists parkings frenquency</ion-label>
+          <ion-label>Clear parkings list frenquency</ion-label>
           <ion-select [(ngModel)]="frequency" (ngModelChange)="changeFrenquency(frequency)">
             <ion-select-option value="0">Never</ion-select-option>
             <ion-select-option value="3">3 Mounth</ion-select-option>
@@ -40,11 +40,11 @@
     </ion-item>
 
     <ion-item>
-      <ion-button color="danger" (click)="clearList()">Clear positions list</ion-button>
+      <ion-button color="danger" (click)="clearList()">Clear parkings list</ion-button>
     </ion-item>
     
     <ion-item>
-      <ion-button color="danger" (click)="clearAllDataApp()">Delete all data app</ion-button>
+      <ion-button color="danger" (click)="clearAllDataApp()">Clear all data app</ion-button>
     </ion-item>
 
   </ion-list>

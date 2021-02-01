@@ -49,7 +49,7 @@ export class AlertService {
   public async alertInputs(message: string, item: any) {
     const alert = await this.alertController.create({
       header: 'Edit Name position',
-      subHeader: 'Element would be edited',
+      //subHeader: 'Parking name would be edited',
       message,
       animated: true,
       buttons: [
