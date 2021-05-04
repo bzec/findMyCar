@@ -105,12 +105,12 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit(): void { }
+  ngOnInit() : void { }
 
   /**
    * Method of ionic cycle
    */
-  ionViewDidEnter(): void {
+  ionViewDidEnter() : void {
     this.iniView();
   }
 
@@ -143,7 +143,7 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   /** Remove map when we have multiple map object */
-  ngOnDestroy(): void {
+  ngOnDestroy() : void {
 
     this.map.remove();
     this.watch.unsubscribe();
@@ -153,7 +153,7 @@ export class MapPage implements OnInit, OnDestroy {
    * Set start of saved position
    * @param startState 
    */
-  private setStarted(startState: boolean): void {
+  private setStarted(startState: boolean) : void {
 
     this.isStarted = startState;
     if (this.isStarted) {

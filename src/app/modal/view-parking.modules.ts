@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalParkingView } from './view-parking-modal';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { ModalParkingViewRoutingModule } from './view-parking.module';
+import { ModalParkingViewRoutingModule } from './view-parking-routing.module';
 
 @NgModule({
   imports: [

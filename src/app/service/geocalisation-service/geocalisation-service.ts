@@ -19,7 +19,7 @@ export class GeocalisationService {
   /**
    * Singleton
    */
-  public static getInstance(): GeocalisationService {
+  public static getInstance() : GeocalisationService {
 
     if (!GeocalisationService.instance) {
       GeocalisationService.instance = new GeocalisationService();
@@ -31,7 +31,7 @@ export class GeocalisationService {
   /**
    * Get position
    */
-  public async position() {
+  public async position() : Promise<any> {
 
     let res = await this.geolocation.getCurrentPosition({ timeout: 2500, maximumAge: Infinity });
     this.currentPosition = { latitude: res.coords.latitude, longitude: res.coords.longitude };
@@ -41,14 +41,14 @@ export class GeocalisationService {
   /**
    * Get current position
    */
-  public getCurrentPosition() {
+  public getCurrentPosition() : any {
     return this.currentPosition;
   }
 
   /**
    * Watch position
    */
-  public getWatchPosition(): any {
+  public getWatchPosition() : any {
     return this.geolocation.watchPosition();
   }
 }

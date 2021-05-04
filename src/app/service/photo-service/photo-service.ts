@@ -16,7 +16,7 @@ export class PhotoService {
   /**
    * Singleton
    */
-  public static getInstance(): PhotoService {
+  public static getInstance() : PhotoService {
 
     if (!PhotoService.instance) {
       PhotoService.instance = new PhotoService();
@@ -25,7 +25,7 @@ export class PhotoService {
     return PhotoService.instance;
   }
 
-  public async takePhoto(): Promise<CameraPhoto> {
+  public async takePhoto() : Promise<CameraPhoto> {
     // Take a photo
     let capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.DataUrl,

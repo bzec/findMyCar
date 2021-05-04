@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "find.my.car",
   "appName": "findMyCar",
   "bundledWebRuntime": false,
   "npmClient": "npm",

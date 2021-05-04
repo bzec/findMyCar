@@ -18,15 +18,18 @@ export class ListPage {
   /**
    * Service to store data
    */
-  dataStorageService: DataStorageService;
+  private dataStorageService: DataStorageService;
+  
   /**
    * Service to create modal
    */
-  modalService: ModalService;
+  private modalService: ModalService;
+  
   /**
    * List of positions
    */
   private positions: Array<any>;
+  
   /**
    * Service to alert user
    */
@@ -71,7 +74,7 @@ export class ListPage {
   /**
    * Method of ionic cycle life
    */
-  private ionViewDidEnter(): void {
+  private ionViewDidEnter() : void {
     this.setList();
     this.dataStorageService.getIsHistory().then((result) => {
       this.isHistoryActivate = result;
@@ -81,14 +84,14 @@ export class ListPage {
   /**
    * Return if we have positions 
    */
-  private displayScreen() {
+  private displayScreen() : any {
     return this.positions && this.positions.length > 0 && this.isHistoryActivate;
   }
 
   /**
    * Set list of positions
    */
-  private setList(): void {
+  private setList() : void {
     this.positions = this.dataStorageService.getAllData();
   }
 
@@ -104,7 +107,7 @@ export class ListPage {
    * Delete item 
    * @param item 
    */
-  async delete(item: any) {
+  private async delete(item: any) : Promise<void> {
     let confirmPopUP = await this.alertService.alertYesNO("Are you sure to remove this parking lot ?", 'Parking would be delete permently');
 
     confirmPopUP.onDidDismiss().then((te) => {
@@ -122,7 +125,7 @@ export class ListPage {
    * Edit name list
    * @param item 
    */
-  private async edit(item: any) {
+  private async edit(item: any) : Promise<void> {
 
     let confirmPopUP = await this.alertService.alertInputs("", item);
 

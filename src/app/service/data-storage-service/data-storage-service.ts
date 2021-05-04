@@ -1,4 +1,5 @@
 import { Storage } from '@ionic/storage';
+import { promise } from 'selenium-webdriver';
 import { ToastService } from '../toast-service/toast-service';
 
 /**
@@ -41,7 +42,7 @@ export class DataStorageService {
   /**
    * Get if user are activate history
    */
-  public async getIsHistory(): Promise<boolean> {
+  public async getIsHistory() : Promise<boolean> {
     let val: boolean = null
     val = await this._storage.get('UserHistory');
     return val !== null ? val : true;
@@ -50,7 +51,7 @@ export class DataStorageService {
   /**
    * Get all positions
    */
-  public getAllData(): Array<any> {
+  public getAllData() : Array<any> {
     let list = [];
 
     this._storage.forEach((value, key, iterationNumber) => {
@@ -63,7 +64,7 @@ export class DataStorageService {
    * Remove a stored element with key
    * @param key 
    */
-  public remove(key: string): void {
+  public remove(key: string) : void {
     this._storage.remove(key).then(() => {
       this.toastService.popToast('Deleted');
     });
@@ -74,7 +75,7 @@ export class DataStorageService {
    * Edit a storage element
    * @param item 
    */
-  public edit(item: any): void {
+  public edit(item: any) : void {
     this._storage.set(item.key, item.value).then(() => {
       this.toastService.popToast('Changed has saved');
     });
@@ -84,7 +85,7 @@ export class DataStorageService {
   /**
    * Delete all data positions
    */
-  public deleteAllDataPosition(): void {
+  public deleteAllDataPosition() : void {
 
     this._storage.forEach((value, key, iterationNumber) => {
       if (value && value.latitude && value.longitude) this._storage.remove(key);
@@ -94,14 +95,14 @@ export class DataStorageService {
   /**
    * Clear all data
    */
-  public clear(): void {
+  public clear() : void {
     this._storage.clear();
   }
 
   /**
    * Get data of start frequency delete
    */
-  public async getSavedDate() {
+  public async getSavedDate() : Promise<any>{
     let date;
     date = await this._storage.get('UserDateFrenquency');
     return date ? date : null;
@@ -110,7 +111,7 @@ export class DataStorageService {
   /**
    * Get frequency delete
    */
-  async getFrenquencyDelete() {
+  async getFrenquencyDelete() : Promise<any> {
     let add;
     add = await this._storage.get('UserFrenquency');
     return add ? add : '0';
@@ -119,7 +120,7 @@ export class DataStorageService {
   /**
    * Get duration of parking
    */
-  async getTimeAlert() {
+  async getTimeAlert() : Promise<{hours,minutes}> {
     let hours: number;
     let minutes: number;
 

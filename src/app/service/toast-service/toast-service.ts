@@ -11,7 +11,7 @@ export class ToastService {
   /**
    * Singleton
    */
-  public static getInstance(): ToastService {
+  public static getInstance() : ToastService {
 
     if (!ToastService.instance) {
       ToastService.instance = new ToastService();

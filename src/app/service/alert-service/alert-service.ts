@@ -10,7 +10,7 @@ export class AlertService {
   /**
    * Singlenton
    */
-  public static getInstance(): AlertService {
+  public static getInstance() : AlertService {
 
     if (!AlertService.instance) {
       AlertService.instance = new AlertService();

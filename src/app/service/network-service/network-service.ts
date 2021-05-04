@@ -4,12 +4,12 @@ import { Network } from '@ionic-native/network/ngx';
 @Injectable()
 export class NetworkService {
 
-  private isConnected: boolean;
+  private isConnected : boolean;
   constructor(public network: Network) {
 
   }
 
-  private _updateConnectedStatus(): void {
+  private _updateConnectedStatus() : void {
     if (navigator && navigator.onLine) {
       // on Browser
       this.isConnected = navigator.onLine
@@ -30,7 +30,7 @@ export class NetworkService {
 
   }
 
-  public isOnline(): boolean {
+  public isOnline() : boolean {
     this._updateConnectedStatus();
     return this.isConnected;
   }

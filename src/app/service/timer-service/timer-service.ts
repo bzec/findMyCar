@@ -47,7 +47,7 @@ export class Timer {
   /**
    * Singleton
    */
-  public static getInstance(): Timer {
+  public static getInstance() : Timer {
 
     if (!Timer.instance) {
       Timer.instance = new Timer();
@@ -59,7 +59,7 @@ export class Timer {
   /**
    * Start timer
    */
-  public start(): void {
+  public start() : void {
 
     this._startTime = Date.now();
     this.dataStorageService.getTimeAlert().then((time) => {
@@ -90,7 +90,7 @@ export class Timer {
    * Time to display
    * @param tm 
    */
-  private timeToDisplay(tm: Date): String {
+  private timeToDisplay(tm: Date) : String {
     let vMin = tm.getMinutes();
     let vSec = tm.getSeconds();
     let vHours = tm.getHours() - 1;
@@ -131,7 +131,7 @@ export class Timer {
   /**
    * Stop timer
    */
-  public stop(): void {
+  public stop() : void {
 
     clearInterval(this._setTimer);
     this._startTime = null;
