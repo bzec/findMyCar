@@ -92,7 +92,7 @@ export class SettingsPage {
           this.dataStorageService.edit({ key: 'UserHistory', value: history });
         }
         else if (te.role == 'no') {
-          history = true;
+          this.isHistory = true;
         }
       });
     } else {

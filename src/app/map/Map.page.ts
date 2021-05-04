@@ -7,6 +7,8 @@ import { Storage } from '@ionic/storage';
 import { PhotoService } from '../service/photo-service/photo-service';
 import { ToastService } from '../service/toast-service/toast-service';
 import { NetworkService } from '../service/network-service/network-service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-map',
@@ -99,9 +101,25 @@ export class MapPage implements OnInit, OnDestroy {
   //location-pointer
   private userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location_on_black.svg'});
 
-  constructor(private storage: Storage, public networkService: NetworkService) {
+  constructor(private storage: Storage, public networkService: NetworkService,
+    private androidPermissions: AndroidPermissions, private platform: Platform) {
+    
     this.dataStorageService = new DataStorageService(storage);
     this.timer.setStorage(storage);
+    if(platform.is('android')) {
+      androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+      );
+
+      androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE).then(
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE)
+      );
+      /*
+      androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE).then(
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE)
+      );   
+      */
+      }
   }
 
 

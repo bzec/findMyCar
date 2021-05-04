@@ -13,6 +13,7 @@ import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { Network } from '@ionic-native/network/ngx';
     Geolocation,
     LocalNotifications,
     Clipboard,
-    Network
+    Network,
+    AndroidPermissions
     
   ],
   bootstrap: [AppComponent]
