@@ -95,9 +95,9 @@ export class MapPage implements OnInit, OnDestroy {
     }
   });
 
-  private carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
+  private carIcon = new this.LeafIcon({iconUrl: '../assets/icon/directions_car_black.svg'});
   //location-pointer
-  private userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location-pointer.png'});
+  private userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location_on_black.svg'});
 
   constructor(private storage: Storage, public networkService: NetworkService) {
     this.dataStorageService = new DataStorageService(storage);
