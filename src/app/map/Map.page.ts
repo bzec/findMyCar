@@ -18,77 +18,76 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * map to display
    */
-  private _map: Map = null;
+  private map : Map = null;
 
   /**
    * if parking is started
    */
-  public isStarted: boolean = false;
+  private isStarted: boolean = false;
 
   /**
    * Time string to display
    */
-  public timerString: String = "00:00:00";
+  private timerString: String = '00:00:00';
 
   /**
    * Get instance timer
    */
-  public timer: Timer = Timer.getInstance();
+  private timer: Timer = Timer.getInstance();
 
   /**
    * Set timer 
    */
-  public setTimer: any;
+  private setTimer: any;
 
   /**
    * Date of parking
    */
-  public dateStart: Date;
+  private dateStart: Date;
 
-  dataUrl: string
+  private dataUrl: string
 
   /**
    * Geocalisation service
    */
-  geocalisationService: GeocalisationService = GeocalisationService.getInstance();
+  private geocalisationService: GeocalisationService = GeocalisationService.getInstance();
 
-    /**
+  /**
    * Service to make toast
    */
-  public toastService: ToastService = ToastService.getInstance();
+  private toastService: ToastService = ToastService.getInstance();
 
   /**
    * Position
    */
-  carPosition: { latitude: number, longitude: number };
-  userPosition: { latitude: number, longitude: number };
+  private carPosition: { latitude: number, longitude: number };
+  private userPosition: { latitude: number, longitude: number };
   /**
    * Position marker
    */
-  positionCarMarker: any;
-  positionUserMarker: any;
-  lineTraject: any
+  private positionCarMarker: any;
+  private positionUserMarker: any;
+  private lineTraject: any
 
   /**
    * Watch position
    */
-  watch: any;
+  private watch: any;
 
   /**
    * Data storage service
    */
-  dataStorageService: DataStorageService;
+  private dataStorageService: DataStorageService;
 
   /**
    * history is activate
    */
-  isHistoryActivate: boolean
+  private isHistoryActivate: boolean
 
   /**
-   * 
+   *  Photo service
    */
-  photoService = PhotoService.getInstance();
-
+  private photoService = PhotoService.getInstance();
 
   LeafIcon = Icon.extend({
     options: {
@@ -96,9 +95,9 @@ export class MapPage implements OnInit, OnDestroy {
     }
   });
 
-  carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
+  private carIcon = new this.LeafIcon({iconUrl: '../assets/icon/car.png'});
   //location-pointer
-  userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location-pointer.png'});
+  private userIcon = new this.LeafIcon({iconUrl: '../assets/icon/location-pointer.png'});
 
   constructor(private storage: Storage, public networkService: NetworkService) {
     this.dataStorageService = new DataStorageService(storage);
@@ -117,7 +116,7 @@ export class MapPage implements OnInit, OnDestroy {
 
   private iniView() : void {
     if(this.networkService.isOnline()) {
-      if (!this._map){
+      if (!this.map){
         this.leafletMap();
       }
       this.dataStorageService.getIsHistory().then((result) => {
@@ -129,15 +128,15 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Create a map and place marker
    */
-  private async leafletMap() {
+  private async leafletMap() : Promise<void> {
     await this.geocalisationService.position();
 
     this.carPosition = this.geocalisationService.getCurrentPosition();
-    this._map =  new Map('map', { center: [this.carPosition.latitude, this.carPosition.longitude] })
+    this.map =  new Map('map', { center: [this.carPosition.latitude, this.carPosition.longitude] })
       .setView([this.carPosition.latitude, this.carPosition.longitude], 10);
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://leafletjs.com/">Leaflet</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this._map);
+      }).addTo(this.map);
 
     this.watch = this.geocalisationService.getWatchPosition();
     this.watch.subscribe(this.updateUserPosition.bind(this));
@@ -146,12 +145,12 @@ export class MapPage implements OnInit, OnDestroy {
   /** Remove map when we have multiple map object */
   ngOnDestroy(): void {
 
-    this._map.remove();
+    this.map.remove();
     this.watch.unsubscribe();
   }
 
   /**
-   * set start of saved position
+   * Set start of saved position
    * @param startState 
    */
   private setStarted(startState: boolean): void {
@@ -163,7 +162,6 @@ export class MapPage implements OnInit, OnDestroy {
       this.setTimer = setInterval(this.updateTimer.bind(this), 100);
       // Place marker
       if(!this.positionUserMarker && this.userPosition) {
-        console.log('position marker non mis')
         this.addUserMarker();
       }
 
@@ -178,30 +176,36 @@ export class MapPage implements OnInit, OnDestroy {
       // Timer stop
       this.timer.stop();
       clearInterval(this.setTimer);
-      // remove layer
-      this._map.removeLayer(this.positionCarMarker)
-      this._map.removeLayer(this.positionUserMarker);
-      this._map.removeLayer(this.lineTraject);
+      // Remove layer
+      this.map.removeLayer(this.positionCarMarker)
+      this.map.removeLayer(this.positionUserMarker);
+      this.map.removeLayer(this.lineTraject);
       this.positionCarMarker = null;
       this.positionUserMarker = null;
       this.lineTraject = null;
-      //save in bdd
-      if (this.isHistoryActivate) {        
-        this.dataStorageService
-          .setData(
-            this.carPosition.latitude, this.carPosition.longitude,
-            this.dateStart, this.timerString,
-            this.dataUrl ? this.dataUrl: ''
-          );
-      }
+      // Save in bdd
+      this.saveInDataBase();
     }
 
+  }
+
+  private async saveInDataBase() : Promise<void> {
+    this.isHistoryActivate = await this.dataStorageService.getIsHistory();
+
+    if (this.isHistoryActivate) {        
+      this.dataStorageService
+        .setData(
+          this.carPosition.latitude, this.carPosition.longitude,
+          this.dateStart, this.timerString,
+          this.dataUrl ? this.dataUrl: ''
+        );
+    }
   }
 
   /**
    * Update timer
    */
-  private updateTimer() {
+  private updateTimer() : void {
     this.timerString = this.timer.displayedTime;
   }
 
@@ -209,25 +213,20 @@ export class MapPage implements OnInit, OnDestroy {
    * Update position
    */
   private async updatePosition() {
-    console.log('on update')
     await this.geocalisationService.position();
-
-    console.log('on  a update')
     this.carPosition = this.geocalisationService.getCurrentPosition();
-    console.log('on fini await')
-
     return Promise.resolve('Fini');
   }
 
   /**
    * Take photo
    */
-  private async takePhoto() {
+  private async takePhoto() : Promise<void> {
     let photo = await this.photoService.takePhoto();
     
     if(photo.dataUrl) {
       this.dataUrl = photo.dataUrl;
-      this.toastService.popToast("Image Saved");
+      this.toastService.popToast('Saved pictures');
 
     }
   }
@@ -235,9 +234,9 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Add line of traject
    */
-  public addLineTraject() {
+  public addLineTraject() : void {
     if(this.lineTraject) {
-      this._map.removeLayer(this.lineTraject);
+      this.map.removeLayer(this.lineTraject);
     }
 
     let latlngs = Array();
@@ -248,61 +247,45 @@ export class MapPage implements OnInit, OnDestroy {
     //Get latlng from car position
     latlngs.push({ lat: this.carPosition.latitude, lng: this.carPosition.longitude });
 
-    // create a blue polyline from an arrays of LatLng points
-    this.lineTraject = polyline(latlngs, { color: 'blue' }).addTo(this._map);
+    // Create a blue polyline from an arrays of LatLng points
+    this.lineTraject = polyline(latlngs, { color: 'blue' }).addTo(this.map);
 
     // zoom the map to the polyline
-    this._map.fitBounds(this.lineTraject.getBounds());
+    this.map.fitBounds(this.lineTraject.getBounds());
   }
 
   /**
-   * Add Car Marker
+   * Add car Marker
    */
-  public addCarMarker() {
+  public addCarMarker() : void {
     this.positionCarMarker = marker([this.carPosition.latitude, this.carPosition.longitude], {icon: this.carIcon})
-    .addTo(this._map).bindPopup('your car is here').openPopup();
+    .addTo(this.map).bindPopup('your car is here').openPopup();
   }
 
   /**
    * Add user marker
    */
-  public addUserMarker() {
+  public addUserMarker() : void {
     this.positionUserMarker = marker([this.userPosition.latitude, this.userPosition.longitude], {icon: this.userIcon})
-    .addTo(this._map).bindPopup('you are here');
+    .addTo(this.map).bindPopup('you are here');
   }
 
   /**
    * Update user position
    * @param data 
    */
-  private updateUserPosition(data) {
+  private updateUserPosition(data) : void {
     let result = data as any;
     if (result && result.coords) {
 
       if(this.positionUserMarker) {
-        this._map.removeLayer(this.positionUserMarker);
+        this.map.removeLayer(this.positionUserMarker);
       }
       
       this.userPosition = { latitude: result.coords.latitude, longitude: result.coords.longitude }
-      //this.userPosition = { latitude: 47.654494828509755, longitude: 7.288282344824184 }
-
-      console.log('update position', result);
-      
       this.addUserMarker();
 
       if(this.isStarted) this.addLineTraject();
     }
   }
 }
-
-/*
-//create marker button
-Leaflet.marker([28.6, 77]).addTo(this._map).bindPopup('Delhi').openPopup();
-Leaflet.marker([34, 77]).addTo(this._map).bindPopup('Leh').openPopup();
-*/
-/*
- // create a line
- antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
-   { color: '#FF0000', weight: 5, opacity: 0.6 })
-   .addTo(this._map);
-*/

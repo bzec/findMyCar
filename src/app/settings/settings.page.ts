@@ -5,30 +5,32 @@ import { AlertService } from '../service/alert-service/alert-service';
 
 @Component({
   selector: 'app-setting',
-  templateUrl: 'setting.page.html',
-  styleUrls: ['setting.page.scss']
+  templateUrl: 'settings.page.html',
+  styleUrls: ['settings.page.scss']
 })
 
 /**
  * Setting page
  */
-export class SettingPage {
-  /**
-   * options of user
-   */
-  public isHistory: boolean = true;
+export class SettingsPage {
 
-  public frequency: string = '0'
 
-  public timeBeforeAlert: number = 0;
-
-  public minutes: number;
-  public hours: number;
   /** Service */
   public dataStorageService: DataStorageService;
 
   public alertService: AlertService = AlertService.getInstance();
 
+/**
+ * user's options
+ */
+  public isHistory: boolean;
+
+  public frequency: string = '0';
+
+  public timeBeforeAlert: number = 0;
+
+  public minutes: number;
+  public hours: number;
   constructor(storage: Storage) {
     this.dataStorageService = new DataStorageService(storage);
   }
@@ -63,7 +65,7 @@ export class SettingPage {
    * Change frenquency
    * @param value 
    */
-  changeFrenquency(value: string) {
+  private changeFrenquency(value: string) : void {
     this.dataStorageService.edit({ key: 'UserFrenquency', value });
     this.dataStorageService.edit({ key: 'UserDateFrenquency', value: new Date() });
   }
@@ -72,7 +74,7 @@ export class SettingPage {
    * change after time
    * @param time 
    */
-  changeAfterTime(time: number) {
+  private changeAfterTime(time: number) : void {
     this.dataStorageService.edit({ key: 'UserAfterTime', time });
   }
 
@@ -80,27 +82,29 @@ export class SettingPage {
    * Change history activated
    * @param history 
    */
-  async changeHistory(history: boolean) {
+  private async changeHistory(history: boolean) : Promise<void> {
     if (!history) {
-      let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action was deleted all positions saved ?', 'Desactivated history');
+      let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action will delete all saved positions ?', 'Disabled history');
       confirmPopUP.onDidDismiss().then((te) => {
 
         if (te.role == 'yes') {
           this.dataStorageService.deleteAllDataPosition();
+          this.dataStorageService.edit({ key: 'UserHistory', value: history });
         }
         else if (te.role == 'no') {
           history = true;
         }
       });
+    } else {
+      this.dataStorageService.edit({ key: 'UserHistory', value: history });
     }
-    this.dataStorageService.edit({ key: 'UserHistory', value: history });
   }
 
   /**
    * Clear list
    */
-  async clearList() {
-    let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action was deleted all positions saved ?', 'Clear list');
+  private async clearList() : Promise<void> {
+    let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action will delete all positions saved ?', 'Clear list');
     confirmPopUP.onDidDismiss().then((te) => {
       if (te.role == 'yes') {
         this.dataStorageService.deleteAllDataPosition();
@@ -111,8 +115,8 @@ export class SettingPage {
   /**
    * Clear all data app
    */
-  async clearAllDataApp() {
-    let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action was deleted all data saved ?', 'Clear all settings');
+  private async clearAllDataApp() : Promise<void> {
+    let confirmPopUP = await this.alertService.alertYesNO('Are you sure this action will deleted all data saved ?', 'Clear all settings');
     confirmPopUP.onDidDismiss().then((te) => {
       if (te.role == 'yes') {
         this.dataStorageService.deleteAllDataPosition();
@@ -126,7 +130,7 @@ export class SettingPage {
    * change hours alert
    * @param hours 
    */
-  changeHours(hours) {
+  private changeHours(hours) : void {
     this.dataStorageService.edit({ key: 'UserAlertHours', value: hours });
   }
 
@@ -134,7 +138,7 @@ export class SettingPage {
    * Change minutes alert
    * @param minutes 
    */
-  changeMinutes(minutes) {
+  private schangeMinutes(minutes) : void {
     this.dataStorageService.edit({ key: 'UserAlertMinutes', value: minutes });
   }
 }

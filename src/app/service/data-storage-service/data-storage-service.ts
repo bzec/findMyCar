@@ -27,7 +27,7 @@ export class DataStorageService {
    * @param date 
    * @param duration 
    */
-  public setData(latitude: number, longitude: number, date: Date, duration: String, pictureData: String) {
+  public setData(latitude: number, longitude: number, date: Date, duration: String, pictureData: String) : void {
     let id: string = (latitude + longitude + date.getTime()).toString();
 
     this._storage.set(id, { latitude, longitude, date, duration, pictureData });
@@ -43,10 +43,8 @@ export class DataStorageService {
    */
   public async getIsHistory(): Promise<boolean> {
     let val: boolean = null
-    await this._storage.get('UserHistory').then((value) => {
-      val = value;
-    });
-    return val ? val : true;
+    val = await this._storage.get('UserHistory');
+    return val !== null ? val : true;
   }
 
   /**
@@ -67,18 +65,18 @@ export class DataStorageService {
    */
   public remove(key: string): void {
     this._storage.remove(key).then(() => {
-      this.toastService.popToast('item deleted');
+      this.toastService.popToast('Deleted');
     });
   }
 
 
   /**
-   * Edit a store
+   * Edit a storage element
    * @param item 
    */
   public edit(item: any): void {
     this._storage.set(item.key, item.value).then(() => {
-      this.toastService.popToast('changed has saved');
+      this.toastService.popToast('Changed has saved');
     });
 
   }
@@ -105,10 +103,7 @@ export class DataStorageService {
    */
   public async getSavedDate() {
     let date;
-    await this._storage.get('UserDateFrenquency').then((value) => {
-      date = value;
-    });
-
+    date = await this._storage.get('UserDateFrenquency');
     return date ? date : null;
   }
 
@@ -117,10 +112,7 @@ export class DataStorageService {
    */
   async getFrenquencyDelete() {
     let add;
-    await this._storage.get('UserFrenquency').then((value) => {
-      add = value;
-    });
-
+    add = await this._storage.get('UserFrenquency');
     return add ? add : '0';
   }
 

@@ -97,7 +97,7 @@ export class ListPage {
    */
   private view(item: any) {
     //ion modal
-    this.modalService.presentModalViewItem(item);
+    this.modalService.presentModalParkingView(item);
   }
 
   /**
@@ -105,7 +105,7 @@ export class ListPage {
    * @param item 
    */
   async delete(item: any) {
-    let confirmPopUP = await this.alertService.alertYesNO("Are you sure that delete this parking ?", 'Parking would be delete permently');
+    let confirmPopUP = await this.alertService.alertYesNO("Are you sure to remove this parking lot ?", 'Parking would be delete permently');
 
     confirmPopUP.onDidDismiss().then((te) => {
 
@@ -124,7 +124,7 @@ export class ListPage {
    */
   private async edit(item: any) {
 
-    let confirmPopUP = await this.alertService.alertInputs("Edit selected parking", item);
+    let confirmPopUP = await this.alertService.alertInputs("", item);
 
     confirmPopUP.onDidDismiss().then((res) => {
 

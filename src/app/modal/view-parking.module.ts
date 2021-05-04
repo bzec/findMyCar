@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ModalViewItemPage } from './view-item-modal';
+import { ModalParkingView } from './view-parking-modal';
 
 const routes: Routes = [
   {
     path: '',
-    component: ModalViewItemPage,
+    component: ModalParkingView,
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ModalViewItemPageRoutingModule {}
+export class ModalParkingViewRoutingModule {}

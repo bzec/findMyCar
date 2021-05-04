@@ -5,43 +5,43 @@ import { ToastService } from '../service/toast-service/toast-service';
 import { Platform } from '@ionic/angular';
 
 @Component({
-  selector: 'modal-view-item-page',
-  templateUrl: 'view-item.page.html',
+  selector: 'modal-parking-view',
+  templateUrl: 'view-parking.page.html',
 
 })
 /**
  * Modal of parking infos saved
  */
-export class ModalViewItemPage {
+export class ModalParkingView {
     
-  // Data passed in by componentProps
+  // Data passed with componentProps
   @Input() name: string;
   @Input() latitude: number;
   @Input() longitude: number;
   @Input() duration: string;
   @Input() pictureData : string;
   
-    /**
+  /**
    * Service to make toast
    */
-  public toastService: ToastService = ToastService.getInstance();
+  private toastService: ToastService = ToastService.getInstance();
   
   constructor( private modalController: ModalController, private clipboard: Clipboard,
     private platform: Platform, private navParams: NavParams) { }
 
-  private async closeModal() {
+  private async closeModal() : Promise<void>{
 
     await this.modalController.dismiss();
   }
 
-  private copyGeolocationinfos() {
+  private copyGeolocationinfos() : void {
     //location infos copy + toast to confirmed
     this.clipboard.copy(`${this.latitude},${this.longitude}`);
-    this.toastService.popToast('infos copied');
+    this.toastService.popToast('informations copied');
   }
 
-  private async openInMap() {
-    //location open in maps location
+  private async openInMap() : Promise<void> {
+    //location open in maps
     let destination = `${this.latitude},${this.longitude}`;
 
     if(this.platform.is('ios')){

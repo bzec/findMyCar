@@ -4,34 +4,34 @@ import { Network } from '@ionic-native/network/ngx';
 @Injectable()
 export class NetworkService {
 
-    isConnected : boolean;
-    constructor(public network: Network) {
+  private isConnected: boolean;
+  constructor(public network: Network) {
 
+  }
+
+  private _updateConnectedStatus(): void {
+    if (navigator && navigator.onLine) {
+      // on Browser
+      this.isConnected = navigator.onLine
+
+    } else {
+      // on Device
+      this.isConnected = this.network.type !== this.network.Connection.NONE
     }
-
-    private _updateConnectedStatus() : void {
-        if (navigator && navigator.onLine) {
-            // on Browser
-            this.isConnected = navigator.onLine
-            
-        } else {
-            // on Device
-            this.isConnected = this.network.type !== this.network.Connection.NONE
-        }
-    }
+  }
 
 
-    public onChangeNetworkBrowser(fun : Function) {
-        (navigator as any).connection.addEventListener('change', fun);
+  public onChangeNetworkBrowser(fun: Function) : void {
+    (navigator as any).connection.addEventListener('change', fun);
 
-    }
+  }
 
-    public onChangeNetworkMobile(fun : Function) {
+  public onChangeNetworkMobile(fun: Function) : void {
 
-    }
+  }
 
-    public isOnline(): boolean {
-        this._updateConnectedStatus();
-        return this.isConnected;
-    }
+  public isOnline(): boolean {
+    this._updateConnectedStatus();
+    return this.isConnected;
+  }
 }

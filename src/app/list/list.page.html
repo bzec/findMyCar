@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Parkings list localisation
+      Parkings list history
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,12 +12,12 @@
     <ion-item-sliding *ngFor="let item of positions">
       <ion-item-options side="end">
         <ion-item-option (click)="view(item)" color="success">View</ion-item-option>
-        <ion-item-option (click)="edit(item)">Edit name</ion-item-option>
+        <ion-item-option (click)="edit(item)">Edit</ion-item-option>
         <ion-item-option color="danger" (click)="delete(item)">Delete</ion-item-option>
       </ion-item-options>
       <ion-item (click)="view(item)"> 
-        {{item.value.name ? item.value.name : 'Name not informed'}} 
-        , duration:{{item.value.duration}}, 
+        {{item.value.name ? item.value.name : 'Not named'}} 
+        , parking time:{{item.value.duration}}, 
         Date start: {{item.value.date | date : format : timezone}}
       </ion-item>
 

@@ -24,7 +24,7 @@ export class AlertService {
    * @param message 
    * @param subHeader 
    */
-  public async alertYesNO(message: string, subHeader: string) {
+  public async alertYesNO(message: string, subHeader: string) : Promise<HTMLIonAlertElement> {
     const alert = await this.alertController.create({
       header: 'Warning',
       subHeader: subHeader,
@@ -46,10 +46,9 @@ export class AlertService {
    * @param message 
    * @param item 
    */
-  public async alertInputs(message: string, item: any) {
+  public async alertInputs(message: string, item: any) : Promise<HTMLIonAlertElement> {
     const alert = await this.alertController.create({
-      header: 'Edit Name position',
-      //subHeader: 'Parking name would be edited',
+      header: 'Edit name',
       message,
       animated: true,
       buttons: [

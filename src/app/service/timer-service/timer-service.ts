@@ -78,7 +78,7 @@ export class Timer {
   /**
    * Update timer
    */
-  private updateTime() {
+  private updateTime() : void {
     this._timeNow = Date.now();
     let diffTimer: number = this._timeNow - this._startTime;
     this.displayedTime = this.timeToDisplay(new Date(diffTimer));
@@ -100,15 +100,15 @@ export class Timer {
     let sec: String = vSec.toString();
 
     if (vHours < 10) {
-      hours = "0" + vHours;
+      hours = '0' + vHours;
     }
 
     if (vMin < 10) {
-      min = "0" + vMin.toString();
+      min = '0' + vMin.toString();
     }
 
     if (vSec < 10) {
-      sec = "0" + vSec;
+      sec = '0' + vSec;
     }
 
     // verify is we send notif to user
@@ -143,7 +143,7 @@ export class Timer {
    * Set storage
    * @param storage 
    */
-  public setStorage(storage: Storage) {
+  public setStorage(storage: Storage) : void {
     this.dataStorageService = new DataStorageService(storage);
   }
 }

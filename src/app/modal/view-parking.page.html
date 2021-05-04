@@ -11,19 +11,22 @@
 </ion-header>
   <ion-content>
     <h1 style="text-align: center;"> {{name}}</h1>
-    <h2> <b> Localisation :</b> </h2>
-     <h3> <b> Latitude:</b> {{latitude}}, </h3>  
-     <h3> <b> Longitude:</b> {{longitude}}</h3>  
+     <h2><b>Car position:</b> <br> latitude:{{latitude}}, longitude:{{longitude}}</h2>  
     <h2> <b> Duration:</b> {{duration}}</h2>
 
     <ion-img [hidden]="!pictureData" [src]="pictureData"></ion-img>
+    <style>
+      h2 {
+        margin-left: 10px;
+      }
+    </style>
   </ion-content>
   
   <ion-footer>
     <ion-toolbar expend="block">
       <ion-button (click)="closeModal()">Close</ion-button>
       <ion-button (click)="copyGeolocationinfos()">Copy Geolocation infos</ion-button> 
-      <ion-button (click)="openInMap()"> Open In Map</ion-button>  
+      <ion-button (click)="openInMap()"> Open in map</ion-button>  
 
     </ion-toolbar>
   </ion-footer>

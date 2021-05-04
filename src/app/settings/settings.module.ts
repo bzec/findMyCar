@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SettingPage } from './setting.page';
+import { SettingsPage } from './settings.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { SettingPageRoutingModule } from './setting-routing.module'
+import { SettingsPageRoutingModule } from './settings-routing.module'
 
 @NgModule({
   imports: [
@@ -14,9 +14,9 @@ import { SettingPageRoutingModule } from './setting-routing.module'
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: SettingPage }]),
-    SettingPageRoutingModule,
+    RouterModule.forChild([{ path: '', component: SettingsPage }]),
+    SettingsPageRoutingModule,
   ],
-  declarations: [SettingPage]
+  declarations: [SettingsPage]
 })
 export class SettingPageModule {}

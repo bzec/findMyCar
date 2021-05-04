@@ -1,11 +1,12 @@
 import { ModalController } from '@ionic/angular';
-import { ModalViewItemPage } from 'src/app/modal/view-item-modal';
+import { promise } from 'selenium-webdriver';
+import { ModalParkingView } from 'src/app/modal/view-parking-modal';
 /**
  * Service to create modal
  */
 export class ModalService {
   /**
-   * modal controller
+   * Modal controller
    */
   private _modalController: ModalController;
 
@@ -18,9 +19,9 @@ export class ModalService {
    * Present modal view for item
    * @param item 
    */
-  public async presentModalViewItem(item: any) {
+  public async presentModalParkingView(item: any) : Promise<void> {
     const modal = await this._modalController.create({
-      component: ModalViewItemPage,
+      component: ModalParkingView,
       componentProps: {
         'name': item.value.name ? item.value.name : 'Missing name',
         'latitude': item.value.latitude,

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Geocalisation car
+      Find my car
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -29,10 +29,10 @@
     </div>
 
     <div [hidden]="isStarted || !userPosition">
-      <ion-button expand="block" (click)="setStarted(true)" color="primary">Find Position</ion-button>
+      <ion-button expand="block" (click)="setStarted(true)" color="primary">Find my position</ion-button>
     </div>
     <div [hidden]="userPosition">
-      <h1>Wait to find user's Position, check your internet connexion</h1>
+      <h1>Wait to find user's position, check your internet connexion</h1>
     </div>
   </div>
 </ion-content>

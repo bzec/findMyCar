@@ -23,12 +23,12 @@ export class ToastService {
    * pop toast
    * @param message 
    */
-  public async popToast(message: string) {
+  public async popToast(message: string) : Promise<void> {
     const toast = await this.toastController.create({
       message,
       animated: true,
       duration: 2000,
-      position: "top"
+      position: 'top'
     });
     toast.present();
   }
