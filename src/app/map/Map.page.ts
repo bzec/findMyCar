@@ -212,10 +212,10 @@ export class MapPage implements OnInit, OnDestroy {
   /**
    * Update position
    */
-  private async updatePosition() {
+  private async updatePosition() : Promise<void> {
     await this.geocalisationService.position();
     this.carPosition = this.geocalisationService.getCurrentPosition();
-    return Promise.resolve('Fini');
+    return Promise.resolve();
   }
 
   /**
