@@ -7,25 +7,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Settings page</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-list>
+    <ion-item>Frequency of parkings list deletion :</ion-item>
     <ion-item>
-      <ion-list>
-        <ion-item>
-          <ion-label>Frequency of parkings list deletion</ion-label>
-          <ion-select [(ngModel)]="frequency" (ngModelChange)="changeFrenquency(frequency)">
-            <ion-select-option value="0">Never</ion-select-option>
-            <ion-select-option value="3">3 Mounths</ion-select-option>
-            <ion-select-option value="12">Year</ion-select-option>
-          </ion-select>
-        </ion-item>
-      
-      </ion-list>
+        <ion-select [(ngModel)]="frequency" (ngModelChange)="changeFrenquency(frequency)">
+          <ion-select-option value="0">Never</ion-select-option>
+          <ion-select-option value="3">3 Mounths</ion-select-option>
+          <ion-select-option value="12">Year</ion-select-option>
+        </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Saved History</ion-label>

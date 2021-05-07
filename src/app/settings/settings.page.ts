@@ -56,7 +56,6 @@ export class SettingsPage {
 
     let frenq = await this.dataStorageService.getFrenquencyDelete();
     this.frequency = frenq;
-
     let history = await this.dataStorageService.getIsHistory();
     this.isHistory = history;
   }
@@ -138,7 +137,7 @@ export class SettingsPage {
    * Change minutes alert
    * @param minutes 
    */
-  private schangeMinutes(minutes) : void {
+  private changeMinutes(minutes) : void {
     this.dataStorageService.edit({ key: 'UserAlertMinutes', value: minutes });
   }
 }

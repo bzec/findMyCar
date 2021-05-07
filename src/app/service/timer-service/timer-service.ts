@@ -119,7 +119,7 @@ export class Timer {
         this.isSendNotif = true;
         localNotifications.schedule({
           id: 1,
-          text: `you are parked since ${hours}:${min}:${sec}`
+          text: `you are parked since ${hours}:${min}`
         });
 
       }

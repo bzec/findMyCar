@@ -1,4 +1,5 @@
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Plugins } from '@capacitor/core';
+const { Geolocation } = Plugins;
 
 /**
  * Geocalisation service
@@ -11,7 +12,6 @@ export class GeocalisationService {
    */
   public currentPosition: any;
   public userPosition: any;
-  private geolocation: Geolocation = new Geolocation();
 
   constructor() {
   }
@@ -33,7 +33,7 @@ export class GeocalisationService {
    */
   public async position() : Promise<any> {
 
-    let res = await this.geolocation.getCurrentPosition({ timeout: 2500, maximumAge: Infinity });
+    let res = await Geolocation.getCurrentPosition();  
     this.currentPosition = { latitude: res.coords.latitude, longitude: res.coords.longitude };
     return this.currentPosition;
   }
@@ -49,6 +49,6 @@ export class GeocalisationService {
    * Watch position
    */
   public getWatchPosition() : any {
-    return this.geolocation.watchPosition();
+    return Geolocation;
   }
 }

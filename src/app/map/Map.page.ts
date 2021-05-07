@@ -114,11 +114,6 @@ export class MapPage implements OnInit, OnDestroy {
       androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE).then(
         err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE)
       );
-      /*
-      androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE).then(
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_NETWORK_STATE)
-      );   
-      */
       }
   }
 
@@ -157,7 +152,9 @@ export class MapPage implements OnInit, OnDestroy {
       }).addTo(this.map);
 
     this.watch = this.geocalisationService.getWatchPosition();
-    this.watch.subscribe(this.updateUserPosition.bind(this));
+    this.watch.watchPosition({}, (pos, err) => {
+      this.updateUserPosition(pos);
+    })
   }
 
   /** Remove map when we have multiple map object */
