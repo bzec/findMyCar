@@ -133,7 +133,7 @@ export class MapPage implements OnInit, OnDestroy {
         this.leafletMap();
       }
       this.dataStorageService.getIsHistory().then((result) => {
-        this.isHistoryActivate = result ? result : true;
+        this.isHistoryActivate = result != null ? result : true;
       });
     }
   }
