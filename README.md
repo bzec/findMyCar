@@ -6,7 +6,7 @@ This project is a mobile application that allows the user to locate the car and 
 
 IOS and Android.
 
-Tested on IOS 14 (Iphone) and Android 11 (Galaxy S10e).
+Tested on IOS 14 (iPhone 12) and Android 11 (Galaxy S10e).
 
 ## Install application 
 
