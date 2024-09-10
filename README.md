@@ -8,11 +8,6 @@ IOS and Android.
 
 Tested on IOS 14 (iPhone 12) and Android 11 (Galaxy S10e).
 
-## Install application 
-
-Apk link :
-https://drive.google.com/drive/folders/1Fn-I_gU5yIXX-qoE-3pywxGDMfBRuKGj?usp=sharing
-
 ## Technologies
 
 Ionic Framewrok, AngularJS and TypeScript.
