@@ -1,0 +1,19 @@
+{
+  "name": "Find My Car",
+  "short_name": "FindMyCar",
+  "description": "Find your parked car and review your parking history",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101728",
+  "theme_color": "#3b6cf6",
+  "icons": [
+    {
+      "src": "assets/icon/pin_drop_black.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

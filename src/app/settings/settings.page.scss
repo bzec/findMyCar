@@ -1,0 +1,15 @@
+ion-list {
+  background: transparent;
+}
+
+.danger-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 16px 16px;
+
+  ion-button {
+    --border-radius: 12px;
+    margin: 0;
+  }
+}

@@ -1,27 +1,73 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Parkings list history
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Parking history</ion-title>
+    @if (historyEnabled() && entries().length > 0) {
+      <ion-buttons slot="end">
+        <ion-badge color="light">{{ entries().length }}</ion-badge>
+      </ion-buttons>
+    }
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <ion-list  [hidden]="!displayScreen()">
-    <ion-item-sliding *ngFor="let item of positions">
-      <ion-item-options side="end">
-        <ion-item-option (click)="view(item)" color="success">View</ion-item-option>
-        <ion-item-option (click)="edit(item)">Edit</ion-item-option>
-        <ion-item-option color="danger" (click)="delete(item)">Delete</ion-item-option>
-      </ion-item-options>
-      <ion-item (click)="view(item)"> 
-        {{item.value.name ? item.value.name : 'Not named'}} 
-        , parking time:{{item.value.duration}}, 
-        Date start: {{item.value.date | date : format : timezone}}
-      </ion-item>
-
-    </ion-item-sliding>
-  </ion-list>
-
+  @if (!historyEnabled()) {
+    <div class="fmc-empty-state">
+      <ion-icon name="archive-outline" aria-hidden="true"></ion-icon>
+      <h2>History is turned off</h2>
+      <p>Enable saved history in Settings to keep track of your parkings.</p>
+    </div>
+  } @else if (entries().length === 0) {
+    <div class="fmc-empty-state">
+      <ion-icon name="car-outline" aria-hidden="true"></ion-icon>
+      <h2>No parking saved yet</h2>
+      <p>Park your car from the Map tab and it will show up here.</p>
+    </div>
+  } @else {
+    <div class="parking-list">
+      @for (entry of entries(); track entry.key) {
+        <article class="parking-card">
+          <button
+            type="button"
+            class="parking-main"
+            (click)="view(entry)"
+            [attr.aria-label]="'View ' + (entry.value.name || 'unnamed parking')"
+          >
+            <div class="parking-thumb">
+              @if (entry.value.pictureData) {
+                <img [src]="entry.value.pictureData" alt="Parking photo" />
+              } @else {
+                <ion-icon name="car-sport" aria-hidden="true"></ion-icon>
+              }
+            </div>
+            <div class="parking-info">
+              <h2>{{ entry.value.name?.trim() || 'Unnamed parking' }}</h2>
+              <p class="parking-meta">
+                <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+                {{ entry.value.duration }}
+              </p>
+              <p class="parking-meta">
+                <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                {{ entry.value.date | date: 'medium' }}
+              </p>
+            </div>
+          </button>
+          <div class="parking-actions">
+            <ion-button fill="clear" size="small" (click)="rename(entry)">
+              <ion-icon slot="start" name="create-outline"></ion-icon>
+              Rename
+            </ion-button>
+            <ion-button
+              fill="clear"
+              size="small"
+              color="danger"
+              (click)="remove(entry)"
+            >
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </div>
+        </article>
+      }
+    </div>
+  }
 </ion-content>

@@ -16,19 +16,13 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 
-package-lock.json
-
+/.angular/cache
 /.idea
-/.ionic
 /.sass-cache
 /.sourcemaps
-/.versions
 /.vscode
 /coverage
 /dist
 /node_modules
-/platforms
-/plugins
+/out-tsc
 /www
-/android
-/ios

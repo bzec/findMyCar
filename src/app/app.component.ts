@@ -1,27 +1,79 @@
 import { Component } from '@angular/core';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  alarmOutline,
+  archiveOutline,
+  calendarClearOutline,
+  calendarOutline,
+  camera,
+  cameraOutline,
+  carOutline,
+  carSport,
+  checkmarkCircle,
+  closeOutline,
+  cloudDoneOutline,
+  cloudOfflineOutline,
+  copyOutline,
+  createOutline,
+  eyeOutline,
+  list,
+  listOutline,
+  locateOutline,
+  locationOutline,
+  map,
+  mapOutline,
+  navigate,
+  navigateOutline,
+  notificationsOutline,
+  refreshOutline,
+  settings,
+  settingsOutline,
+  stopCircle,
+  timeOutline,
+  trashBinOutline,
+  trashOutline,
+  warningOutline,
+} from 'ionicons/icons';
 
-import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+addIcons({
+  'alarm-outline': alarmOutline,
+  'archive-outline': archiveOutline,
+  'calendar-clear-outline': calendarClearOutline,
+  'calendar-outline': calendarOutline,
+  camera: camera,
+  'camera-outline': cameraOutline,
+  'car-outline': carOutline,
+  'car-sport': carSport,
+  'checkmark-circle': checkmarkCircle,
+  'close-outline': closeOutline,
+  'cloud-done-outline': cloudDoneOutline,
+  'cloud-offline-outline': cloudOfflineOutline,
+  'copy-outline': copyOutline,
+  'create-outline': createOutline,
+  'eye-outline': eyeOutline,
+  list: list,
+  'list-outline': listOutline,
+  'locate-outline': locateOutline,
+  'location-outline': locationOutline,
+  map: map,
+  'map-outline': mapOutline,
+  navigate: navigate,
+  'navigate-outline': navigateOutline,
+  'notifications-outline': notificationsOutline,
+  'refresh-outline': refreshOutline,
+  settings: settings,
+  'settings-outline': settingsOutline,
+  'stop-circle': stopCircle,
+  'time-outline': timeOutline,
+  'trash-bin-outline': trashBinOutline,
+  'trash-outline': trashOutline,
+  'warning-outline': warningOutline,
+});
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  template: `<ion-app><ion-router-outlet></ion-router-outlet></ion-app>`,
+  imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent {
-  constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
-  ) {
-    this.initializeApp();
-  }
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
-  }
-}
+export class AppComponent {}

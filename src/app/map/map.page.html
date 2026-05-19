@@ -1,32 +1,83 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Find my car
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Find My Car</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" scroll-y="false">
+  <div id="map" class="map-canvas"></div>
 
-  <div [hidden]='networkService.isOnline()'>
-    <ion-button color="primary" (click)='relaodPage()'> Refresh page after connect </ion-button>
+  <div class="status-bar">
+    <ion-chip [color]="network.isOnline() ? 'success' : 'danger'">
+      <ion-icon
+        [name]="network.isOnline() ? 'cloud-done-outline' : 'cloud-offline-outline'"
+        aria-hidden="true"
+      ></ion-icon>
+      <ion-label>{{ network.isOnline() ? 'Online' : 'Offline' }}</ion-label>
+    </ion-chip>
+    <ion-chip [color]="userPosition() ? 'primary' : 'medium'">
+      <ion-icon name="locate-outline" aria-hidden="true"></ion-icon>
+      <ion-label>{{ userPosition() ? 'GPS ready' : 'No GPS' }}</ion-label>
+    </ion-chip>
   </div>
 
-  <div id="map" style="width: 100%; height: 80%"></div>
-  <div>
-    <div [hidden]="!isStarted">
-      <h2> <b>Duration :</b> {{timerString}}</h2>
-      <div expend="block">
-        <ion-button color="danger" (click)="setStarted(false)">Stop</ion-button>
-        <ion-button (click)="takePhoto()">Take photo</ion-button>
-      </div>
+  @if (locating()) {
+    <div class="overlay-card locating-card">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Locating you…</p>
     </div>
+  }
 
-    <div [hidden]="isStarted || !userPosition">
-      <ion-button expand="block" (click)="setStarted(true)" color="primary">Find my position</ion-button>
+  @if (!network.isOnline()) {
+    <div class="overlay-card offline-card">
+      <p>You are offline. The map may not load correctly.</p>
+      <ion-button size="small" fill="solid" (click)="reloadPage()">
+        <ion-icon slot="start" name="refresh-outline"></ion-icon>
+        Reload
+      </ion-button>
     </div>
-    <div [hidden]="userPosition">
-      <h1>Wait to find user's position, check your internet connexion</h1>
-    </div>
+  }
+
+  <div class="bottom-panel">
+    @if (timer.running()) {
+      <div class="timer-card">
+        <div class="timer-info">
+          <span class="timer-label">
+            <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+            Parked for
+          </span>
+          <span class="timer-value">{{ timer.display() }}</span>
+        </div>
+        <div class="timer-actions">
+          <ion-button
+            expand="block"
+            fill="outline"
+            (click)="takePhoto()"
+            [color]="photoTaken() ? 'success' : 'primary'"
+          >
+            <ion-icon
+              slot="start"
+              [name]="photoTaken() ? 'checkmark-circle' : 'camera'"
+            ></ion-icon>
+            {{ photoTaken() ? 'Photo added' : 'Take photo' }}
+          </ion-button>
+          <ion-button expand="block" color="danger" (click)="stopParking()">
+            <ion-icon slot="start" name="stop-circle"></ion-icon>
+            Stop parking
+          </ion-button>
+        </div>
+      </div>
+    } @else {
+      <ion-button
+        class="start-button"
+        expand="block"
+        size="large"
+        [disabled]="!userPosition()"
+        (click)="startParking()"
+      >
+        <ion-icon slot="start" name="car-sport"></ion-icon>
+        Park my car here
+      </ion-button>
+    }
   </div>
 </ion-content>

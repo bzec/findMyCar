@@ -1,8 +1,0 @@
-{
-  "name": "findMyCar",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular",
-  "id": "33206f13"
-}
